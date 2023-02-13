@@ -3,8 +3,9 @@ const util = require("./util")
 
 module.exports = {
 	id: "villager-names",
-	name: "Villager names",
+	name: "Villager Names",
 	desc: "Villagers have random names.",
+	updated: [2, 11, 23],
 	data: {
 		names: ["Abraham", "Ezekiel", "Adam", "Abigail", "Ezra", "Amos", "Paul", "David", "Prudence", "Benjamin", "Hannah", "Daniel", "Deborah", "Eden", "Ebenezer", "Jeremiah", "Elijah", "Peter", "Abiathar", "Rebecca", "Jeremy", "Gabriel", "Isaac", "Maxwell", "Jacob", "Caleb", "Jared", "Levi", "Jessica", "Lilah", "Joel", "Sarah", "Micah", "Jordan", "Simon", "Jackson", "Judah", "Roy", "Muhammad", "Judith", "Samuel", "Noah", "Edward", "Rachel", "Solomon", "Tamara", "Aaron", "Tyrone", "Nicholas", "Parker", "Trevor", "Baxter", "Mary", "Jaden", "Ross", "Harold", "Christopher", "Allen", "Steph", "Alexander"]
 	},

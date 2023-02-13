@@ -1,2 +1,2 @@
-# minecraft-datapack-interface
-NodeJS interface to mass-generate mcfunction files for vanilla Minecraft datapacks.
+# Minecraft Datapack Interface
+NodeJS interface to generate mcfunction files (and more) for vanilla Minecraft.

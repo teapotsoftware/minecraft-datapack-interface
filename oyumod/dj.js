@@ -2,9 +2,10 @@ const mc = require("./../mcdpi")
 const util = require("./util")
 
 module.exports = {
-	id: "disc-trader",
+	id: "wandering-dj",
 	name: "Wandering DJ",
 	desc: "I'm a Wandering Trader and my rhymes are sick. I buy a random disc for 4 and sell one for 6.",
+	updated: [2, 11, 23],
 	["tick-entities-fresh-trader"]: () => {
 		// buy and sell a random disc
 		const discs = ["11", "13", "cat", "blocks", "mall", "mellohi", "chirp", "pigstep", "ward", "far", "stal", "strad"]

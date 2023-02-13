@@ -4,6 +4,7 @@ module.exports = {
 	id: "guns",
 	name: "Nick's Carrot-Stick-Guns",
 	desc: "Guns that use iron nuggets for ammo, and can be fired by right-clicking.",
+	updated: [2, 11, 23],
 	init: () => {
 		mc.addTag(mc.tagType.blocks, "gun_breakable", ["minecraft:grass", "minecraft:tall_grass", "minecraft:fern", "minecraft:dead_bush", "minecraft:snow", "#minecraft:flowers"])
 	},

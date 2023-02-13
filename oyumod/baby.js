@@ -5,6 +5,7 @@ module.exports = {
 	id: "baby-mod",
 	name: "Baby Making (W.I.P.)",
 	desc: "Sleep next to your e-girlfriend to make a baby.",
+	updated: [2, 11, 23],
 	data: {
 		baby_genders: [["boy", "Boy", "blue"], ["girl", "Girl", "light_purple"]],
 		baby_names: [

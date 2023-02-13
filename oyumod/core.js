@@ -7,6 +7,26 @@ const WORLD_DIRS = ["C:/Users/sirfr/AppData/Roaming/.minecraft/saves/billpack-te
 ]
 const DATAPACK_FORMAT = 10
 
+const ModList = [
+	require("./baby"),
+	require("./bee"),
+	require("./chance"),
+	require("./copper"),
+	require("./counter"),
+	require("./dj"),
+	require("./food"),
+	require("./guns"),
+	require("./hitsounds"),
+	require("./industry"),
+	require("./instruments"),
+	require("./joinmsg"),
+	require("./milestones"),
+	require("./names"),
+	require("./onepearl"),
+	require("./tf2"),
+	require("./zombies")
+]
+
 // find datapack directory
 var DATAPACK_DIR
 for (let i in WORLD_DIRS) {
@@ -33,24 +53,6 @@ mc.root(DATAPACK_DIR)
 // give us some logs
 mc.compilerMode(MODE_DEBUG)
 
-let ModList = [
-	require("./baby"),
-	require("./bee"),
-	require("./chance"),
-	require("./copper"),
-	require("./food"),
-	require("./guns"),
-	require("./hitsounds"),
-	require("./industry"),
-	require("./instruments"),
-	require("./joinmsg"),
-	require("./names"),
-	require("./onepearl"),
-	require("./tf2"),
-	require("./tradedisc"),
-	require("./zombies")
-]
-
 for (let i in ModList) {
 	let mod = ModList[i]
 	mc.startPack(mod.id, mod.desc, DATAPACK_FORMAT)
@@ -67,7 +69,7 @@ for (let i in ModList) {
 	}
 	if (!mod.hideInList) {
 		mc.createFunction("mod-list", () => {
-			let hoverEvent = `,"hoverEvent":{"action":"show_text","contents":[{"text":"${mod.desc}"}]}}`
+			let hoverEvent = `,"hoverEvent":{"action":"show_text","contents":[{"text":"${mod.desc} ","color":"white"},{"text":"(Updated ${mod.updated[0]}/${mod.updated[1]}/20${mod.updated[2]})","color":"gray"}]}}`
 			mc.command(`tellraw @s [{"text":" - ${mod.name}","color":"gray"${hoverEvent}]`)
 		})
 		mc.hook("mod-list", "mod-list", "oyumod")

@@ -4,6 +4,7 @@ module.exports = {
 	id: "industry",
 	name: "Industrial Society",
 	desc: "Automation pack for vanilla Minecraft.",
+	updated: [2, 11, 23],
 	data: {
 		slow_tick: 30,
 		excavatorTypes: ["pickaxe", "shovel"],

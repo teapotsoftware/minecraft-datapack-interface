@@ -3,6 +3,7 @@ const mc = require("./../mcdpi")
 module.exports = {
 	id: "join-messages",
 	name: "Join Messages",
+	updated: [2, 11, 23],
 	desc: "Welcome messages for new and returning players.",
 	hideInList: true,
 	["welcome-new"]: () => {

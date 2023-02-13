@@ -5,6 +5,7 @@ module.exports = {
 	id: "chance-cubes",
 	name: "Chance Cubes",
 	desc: "Blocks crafted from lapis that do something random when broken.",
+	updated: [2, 12, 23],
 	data: {
 		outcomes: [
 			`tellraw @a[distance=..10] "Nothing!"`,
@@ -52,7 +53,7 @@ module.exports = {
 			[`tellraw @a[distance=..10] "Tuff luck, buddy."`, `setblock ~ ~ ~ tuff`],
 			[`summon zombie ~ ~ ~ {DeathLootTable:"minecraft:blocks/red_mushroom",CustomName:'{"text":"Marco"}',HandItems:[{id:"minecraft:iron_hoe",Count:1b},{}],HandDropChances:[0.000F,0.085F],ArmorItems:[{id:"minecraft:leather_boots",Count:1b,tag:{display:{color:6043910}}},{id:"minecraft:leather_leggings",Count:1b,tag:{display:{color:1537279}}},{id:"minecraft:leather_chestplate",Count:1b,tag:{display:{color:16711680}}},{id:"minecraft:leather_helmet",Count:1b,tag:{display:{color:16711680}}}],ArmorDropChances:[0.085F,0.000F,0.000F,0.000F]}`, `summon zombie ~ ~ ~ {DeathLootTable:"minecraft:blocks/brown_mushroom",CustomName:'{"text":"Leonardo"}',HandItems:[{id:"minecraft:iron_hoe",Count:1b},{}],HandDropChances:[0.000F,0.085F],ArmorItems:[{id:"minecraft:leather_boots",Count:1b,tag:{display:{color:6043910}}},{id:"minecraft:leather_leggings",Count:1b,tag:{display:{color:1537279}}},{id:"minecraft:leather_chestplate",Count:1b,tag:{display:{color:53047}}},{id:"minecraft:leather_helmet",Count:1b,tag:{display:{color:53047}}}],ArmorDropChances:[0.085F,0.000F,0.000F,0.000F]}`],
 			["weather rain", `summon zombie ~ ~ ~ {CustomName:'{"text":"Carter"}',HandItems:[{id:"minecraft:milk_bucket",Count:1b},{}],HandDropChances:[1.000F,0.085F]}`],
-			[`tellraw @a[distance=..10] "Oh, shoot!"`, `setblock ~ ~-1 dirt`, `fill ~ ~ ~ ~ ~9 ~ bamboo`],
+			[`tellraw @a[distance=..10] "Oh, shoot!"`, `setblock ~ ~-1 ~ dirt`, `fill ~ ~ ~ ~ ~9 ~ bamboo`],
 			[
 				"setblock ~ ~-1 ~ stone",
 				"setblock ~1 ~-1 ~ stone",

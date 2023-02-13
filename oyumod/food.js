@@ -3,6 +3,7 @@ const mc = require("./../mcdpi")
 module.exports = {
 	id: "harvestcraft",
 	name: "Nick's HarvestCraft",
+	updated: [2, 12, 23],
 	desc: "Adds more food and drinks to vanilla Minecraft.",
 	data: {
 		brewing_ticks: 80,
@@ -10,9 +11,10 @@ module.exports = {
 			["yeast", ["brown_mushroom", "sugar", "brown_mushroom"], ["air", "air", "air"], `{display:{Name:'{"text":"Activated Yeast","color":"#FFE8BA","italic":false}',Lore:['{"text":"The base of alcoholic drinks.","color":"gray","italic":false}']},activated_yeast:1b,CustomPotionEffects:[{Id:23b,Amplifier:2b,Duration:0,ShowParticles:0b}],CustomPotionColor:16771258}`],
 			["wine", ["sweet_berries", "(yeast)", "sweet_berries"], ["air", "air", "air"], `{display:{Name:'{"text":"Sweet Berry Wine","color":"#AD0274","italic":false}'},CustomPotionEffects:[{Id:10b,Amplifier:0b,Duration:160,ShowParticles:0b},{Id:23b,Amplifier:3b,Duration:0}],CustomPotionColor:11338356}`],
 			["beer", ["wheat", "(yeast)", "wheat"], ["air", "air", "air"], `{display:{Name:'{"text":"Beer","color":"#FFC219","italic":false}'},CustomPotionEffects:[{Id:4b,Amplifier:0b,Duration:600,ShowParticles:0b},{Id:5b,Amplifier:1b,Duration:600,ShowParticles:0b}],CustomPotionColor:16761369}`],
+			["vodka", ["potato", "(yeast)", "potato"], ["air", "air", "air"], `{display:{Name:'{"text":"Vodka","color":"#CCF8FF","italic":false}'},CustomPotionEffects:[{Id:4b,Amplifier:0b,Duration:600,ShowParticles:0b},{Id:5b,Amplifier:1b,Duration:600,ShowParticles:0b}],CustomPotionColor:14412799}`],
 			["wart-wine", ["nether_wart", "(yeast)", "nether_wart"], ["air", "air", "air"], `{display:{Name:'{"text":"Wart Wine","color":"#690F01","italic":false}'},CustomPotionEffects:[{Id:2b,Amplifier:0b,Duration:400,ShowParticles:0b},{Id:9b,Amplifier:0b,Duration:120,ShowParticles:0b},{Id:12b,Amplifier:0b,Duration:600,ShowParticles:0b},{Id:15b,Amplifier:0b,Duration:600,ShowParticles:0b}],CustomPotionColor:6885121}`],
 			["coffee", ["redstone", "paper", "redstone"], ["air", "air", "air"], `{display:{Name:'{"text":"Coffee","color":"#785800","italic":false}'},CustomPotionEffects:[{Id:1b,Amplifier:0b,Duration:600,ShowParticles:0b},{Id:3b,Amplifier:1b,Duration:600,ShowParticles:0b},{Id:18b,Amplifier:1b,Duration:600,ShowParticles:0b}],CustomPotionColor:7886848}`],
-			["watermelon_juice", ["melon_slice", "sugar", "melon_slice"], ["air", "air", "air"], `{display:{Name:'{"text":"Watermelon Juice","color":"#FF00BB","italic":false}'},CustomPotionEffects:[{Id:23b,Amplifier:3b,Duration:0,ShowParticles:0b}],CustomPotionColor:16711867}`]
+			//["watermelon_juice", ["melon_slice", "sugar", "melon_slice"], ["air", "air", "air"], `{display:{Name:'{"text":"Watermelon Juice","color":"#FF00BB","italic":false}'},CustomPotionEffects:[{Id:23b,Amplifier:3b,Duration:0,ShowParticles:0b}],CustomPotionColor:16711867}`]
 		]
 	},
 /*
@@ -43,7 +45,7 @@ module.exports = {
 	},
 	["tick-entities-fresh-trader"]: () => {
 		// drop meat >:3
-		mc.command(`data merge entity @s {ArmorItems:[{},{id:"minecraft:rotten_flesh",Count:1b,tag:{display:{Name:'{"text":"Villager Flesh","italic":false}',Lore:['{"text":"May instill a lust for blood...","color":"red","italic":true}']}}},{},{}],ArmorDropChances:[0.085F,1.000F,0.085F,0.085F]}`)
+		// mc.command(`data merge entity @s {ArmorItems:[{},{id:"minecraft:rotten_flesh",Count:1b,tag:{display:{Name:'{"text":"Villager Flesh","italic":false}',Lore:['{"text":"May instill a lust for blood...","color":"red","italic":true}']}}},{},{}],ArmorDropChances:[0.085F,1.000F,0.085F,0.085F]}`)
 
 		// cheap soups
 		mc.execute().percent(33).run(`data modify entity @s Offers.Recipes prepend value {buy:{id:"minecraft:emerald",Count:1b},sell:{id:"minecraft:mushroom_stew",Count:1b,tag:{display:{Name:'{"text":"Chocolate Ice Cream","italic":false}'}}}}`)

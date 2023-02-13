@@ -5,6 +5,7 @@ module.exports = { // mine co supply eggs
 	id: "supply-eggs",
 	name: "Mine Co. Supply Eggs",
 	desc: "Turns Minecraft into a gacha game.",
+	updated: [2, 12, 23],
 	data: {
 		color_unique: "#FFD700",
 		color_strange: "#CF6A32",
@@ -255,16 +256,16 @@ module.exports = { // mine co supply eggs
 
 						// remember what the block even was
 						mc.setScore("#was_air", "var", 1)
-						mc.execute().if("block ~ 0 ~ bedrock").run("scoreboard players set #was_air var 0")
+						mc.execute().if("block ~ -64 ~ bedrock").run("scoreboard players set #was_air var 0")
 
 						// add 1 to the kills
 						mc.execute().store("result score #strange_kills var").run("data get entity @s SelectedItem.tag.strange_kills")
 						mc.addScore("#strange_kills", "var", 1)
 
 						// shulker box fuckery
-						mc.command("setblock ~ 0 ~ yellow_shulker_box")
-						mc.command(`data modify block ~ 0 ~ Items append from entity @s SelectedItem`)
-						mc.execute().store("result block ~ 0 ~ Items[0].tag.strange_kills int 1.0").run("scoreboard players get #strange_kills var")
+						mc.command("setblock ~ -64 ~ yellow_shulker_box")
+						mc.command(`data modify block ~ -64 ~ Items append from entity @s SelectedItem`)
+						mc.execute().store("result block ~ -64 ~ Items[0].tag.strange_kills int 1.0").run("scoreboard players get #strange_kills var")
 
 						// format kills for name & description
 						let highestLevel = data.strange_prefixes[w][data.strange_prefixes[w].length - 1]
@@ -287,14 +288,14 @@ module.exports = { // mine co supply eggs
 								}
 							}
 
-							mc.execute().if(`score #strange_kills var matches ${i}`).run(`data modify block ~ 0 ~ Items[0].tag.display set value {Name:'{"text":"${prefix} ${data.strange_weapons[w][1]}","color":"${data.color_strange}","italic":false}',Lore:['{"text":"Kills: ${kills}","color":"gray","italic":false}']}`)
+							mc.execute().if(`score #strange_kills var matches ${i}`).run(`data modify block ~ -64 ~ Items[0].tag.display set value {Name:'{"text":"${prefix} ${data.strange_weapons[w][1]}","color":"${data.color_strange}","italic":false}',Lore:['{"text":"Kills: ${kills}","color":"gray","italic":false}']}`)
 						}
 
-						mc.command("item replace entity @s weapon.mainhand from block ~ 0 ~ container.0")
+						mc.command("item replace entity @s weapon.mainhand from block ~ -64 ~ container.0")
 
 						// replace the block
-						mc.execute().if("score #was_air var matches 0").run("setblock ~ 0 ~ bedrock")
-						mc.execute().if("score #was_air var matches 1").run("setblock ~ 0 ~ air")
+						mc.execute().if("score #was_air var matches 0").run("setblock ~ -64 ~ bedrock")
+						mc.execute().if("score #was_air var matches 1").run("setblock ~ -64 ~ air")
 					})
 				}
 			})
@@ -355,6 +356,6 @@ module.exports = { // mine co supply eggs
 	["tick-entities-fresh-trader"]: data => {
 
 		//  give all traders supply eggs
-		mc.command(`data modify entity @s Offers.Recipes prepend value {buy:{id:"minecraft:emerald",Count:3b},sell:{id:"minecraft:villager_spawn_egg",Count:1b, tag:${data.supply_egg_nbt}}}`)
+		mc.command(`data modify entity @s Offers.Recipes prepend value {maxUses:10,buy:{id:"minecraft:emerald",Count:3b},sell:{id:"minecraft:villager_spawn_egg",Count:1b, tag:${data.supply_egg_nbt}}}`)
 	}
 }
