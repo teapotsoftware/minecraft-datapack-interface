@@ -5,7 +5,7 @@ module.exports = {
 	id: "musical-instruments",
 	name: "Musical Instruments",
 	desc: "Items that play beautiful musical notes when held.",
-	updated: [2, 12, 23],
+	updated: [2, 13, 23],
 	data: {
 		instruments: [
 			"didgeridoo",
@@ -23,7 +23,6 @@ module.exports = {
 	init: data => {
 		// hitsounds
 		mc.hookAdvancement("hitsound", "player_hurt_entity", {}, () => {
-
 			// drumsticks hitsound
 			mc.command("tag @s[nbt={SelectedItem:{tag:{drumsticks:1b}}}] add drummer")
 			mc.execute().as("@s[tag=drummer]").run("drumsticks", () => {
@@ -49,21 +48,12 @@ module.exports = {
 			mc.command("advancement revoke @s only musical-instruments:hitsound")
 		})
 	},
-/*
-	load: () => {
-		mc.setScore("#instrument_cooldown", "var", 0)
-	},
-	tick: () => {
-		// instrument note cooldown
-		mc.command("scoreboard players add #instrument_cooldown var 1")
-		mc.execute().if("score #instrument_cooldown var matches 5..").run("scoreboard players set #instrument_cooldown var 0")
-	},
-*/
 	["tick-entities"]: data => {
 		// skeleton can play trumpet too :)
-		mc.execute().as("@s[type=skeleton]").if("data entity @s HandItems[0].tag.instrument").percent(30).run("instrument", () => {
-			// mc.execute().store("result score #ply_ang var").run("data get entity @s Rotation[1]")
-			// mc.addScore("#ply_ang", "var", 90)
+		mc.setScore("#can_play_instrument", "var", 0)
+		mc.execute().as("@s[type=player]").if("data entity @s SelectedItem.tag.instrument").run("scoreboard players set #can_play_instrument var 1")
+		mc.execute().as("@s[type=skeleton]").if("data entity @s HandItems[0].tag.instrument").run("scoreboard players set #can_play_instrument var 1")
+		mc.execute().if("score #can_play_instrument var matches 1").percent(30).run("instrument", () => {
 			mc.command("particle note ^-0.4 ^1 ^ 0 0 0 0.1 1 force")
 
 			for (let i in data.instruments) {
@@ -74,30 +64,6 @@ module.exports = {
 						if (top < 180)
 							top--
 
-						// mc.execute().if("score #ply_ang var matches " + (n * 5) + ".." + top).run(`playsound block.note_block.${data.instruments[i]} master @a ~ ~ ~ 1 ${2 - ((n / 35) * 1.5)}`)
-						cmds.push(`playsound block.note_block.${data.instruments[i]} master @a ~ ~ ~ 1 ${2 - ((n / 35) * 1.5)}`)
-					}
-					util.generateRandomScore("instrument_note", 36, cmds)
-				})
-			}
-		})
-	},
-	["tick-players"]: data => {
-		// .if("score #instrument_cooldown var matches 0")
-		mc.execute().if("data entity @s SelectedItem.tag.instrument").percent(30).run("instrument", () => {
-			// mc.execute().store("result score #ply_ang var").run("data get entity @s Rotation[1]")
-			// mc.addScore("#ply_ang", "var", 90)
-			mc.command("particle note ^-0.4 ^1 ^ 0 0 0 0.1 1 force")
-
-			for (let i in data.instruments) {
-				mc.execute().if(`data entity @s SelectedItem.tag.instrument_${data.instruments[i]}`).run(data.instruments[i], () => {
-					let cmds = []
-					for (let n = 0; n < 36; n++) {
-						let top = ((n + 1) * 5)
-						if (top < 180)
-							top--
-
-						// mc.execute().if("score #ply_ang var matches " + (n * 5) + ".." + top).run(`playsound block.note_block.${data.instruments[i]} master @a ~ ~ ~ 1 ${2 - ((n / 35) * 1.5)}`)
 						cmds.push(`playsound block.note_block.${data.instruments[i]} master @a ~ ~ ~ 1 ${2 - ((n / 35) * 1.5)}`)
 					}
 					util.generateRandomScore("instrument_note", 36, cmds)
@@ -108,8 +74,9 @@ module.exports = {
 	["tick-entities-fresh"]: () => {
 		// zombie with drum sticks
 		mc.execute().as("@s[type=zombie]").percent(1).run("drummer", () => {
+			const drumstick_nbt = `{id:"minecraft:stick",Count:1b,tag:{display:{Name:'{"text":"Drumsticks","color":"dark_aqua","italic":false}'},drumsticks:1b,Enchantments:[{}],AttributeModifiers:[{AttributeName:"generic.attack_damage",Name:"generic.attack_damage",Amount:2,Operation:0,UUID:[I;1821702917,1839415906,-1378302150,-1050781235],Slot:"mainhand"},{AttributeName:"generic.attack_damage",Name:"generic.attack_damage",Amount:2,Operation:0,UUID:[I;1806897970,-110539517,-2095567993,1940820790],Slot:"offhand"}]}}`
 			for (let i = 0; i < 2; i++)
-				mc.command(`data modify entity @s HandItems[${i}] set value {id:"minecraft:stick",Count:1b,tag:{display:{Name:\'{"text":"Drumsticks","color":"dark_aqua","italic":false}\'},drumsticks:1b,AttributeModifiers:[{AttributeName:"generic.attackDamage",Name:"generic.attackDamage",Amount:2,Operation:0,UUIDLeast:497392,UUIDMost:2711,Slot:"mainhand"},{AttributeName:"generic.attackDamage",Name:"generic.attackDamage",Amount:2,Operation:0,UUIDLeast:352537,UUIDMost:892164,Slot:"offhand"}]}}`)
+				mc.command(`data modify entity @s HandItems[${i}] set value ${drumstick_nbt}`)
 			mc.command("data modify entity @s HandDropChances set value [1.0f, 1.0f]")
 		})
 
@@ -121,7 +88,6 @@ module.exports = {
 	},
 	["tick-entities-fresh-trader"]: () => {
 		// buyable instruments
-		// const desc = "Look up & down to change pitch."
 		const desc = "Plays beautiful music when held."
 		mc.execute().percent(15).run(`data modify entity @s Offers.Recipes append value {buy:{id:"minecraft:emerald",Count:10b},sell:{id:"minecraft:golden_horse_armor",Count:1b,tag:{Enchantments:[{id:-1}],display:{Name:'{"text":"Saxophone","color":"gold","italic":false}',Lore:['{"text":"${desc}","color":"gray","italic":false}']},instrument:1b,instrument_didgeridoo:1b}}}`)
 		mc.execute().percent(15).run(`data modify entity @s Offers.Recipes append value {buy:{id:"minecraft:emerald",Count:10b},sell:{id:"minecraft:bone",Count:1b,tag:{Enchantments:[{id:-1}],display:{Name:'{"text":"Xylobone","color":"aqua","italic":false}',Lore:['{"text":"${desc}","color":"gray","italic":false}']},instrument:1b,instrument_xylophone:1b}}}`)

@@ -50,7 +50,6 @@ module.exports = {
 	},
 	load: () => {
 		// objectives
-		//mc.addObjective("play_hitsound", "minecraft.custom:minecraft.damage_dealt")
 		mc.addObjective("hitsound", "trigger")
 	},
 	["tick-players"]: () => {

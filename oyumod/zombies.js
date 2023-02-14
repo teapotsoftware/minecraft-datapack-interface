@@ -3,11 +3,12 @@ const mc = require("./../mcdpi")
 module.exports = {
 	id: "all-you-zombies",
 	name: "All You Zombies",
-	updated: [2, 11, 23],
+	updated: [2, 13, 23],
 	desc: "Makes undead mobs a little scarier.",
 	init: () => {
 		mc.addTag(mc.tagType.entities, "armor_wearing_mobs", ["#minecraft:skeletons", "minecraft:zombie", "minecraft:husk", "minecraft:drowned"])
 		mc.addTag(mc.tagType.blocks, "disposable_blocks", ["#minecraft:logs", "#minecraft:leaves", "#minecraft:enderman_holdable", "minecraft:air"])
+		mc.addPredicate("raining", "weather_check", ["raining"], [true])
 	},
 	["tick-entities"]: () => {
 		// zombie tick
@@ -46,7 +47,7 @@ module.exports = {
 		// freshly-spawned zombies and skeletons
 		mc.execute().as("@s[type=#all-you-zombies:armor_wearing_mobs]").run("z", () => {
 			// 40% to have a raincoat in the rain
-			mc.execute().predicate("raining").if("block ~ ~-1 ~ grass_block").percent(40).run(`data modify entity @s ArmorItems[2] set value {id:"minecraft:leather_chestplate",Count:1b,tag:{display:{Name:\'{"text":"Raincoat","color":"yellow","italic":false}\',Enchantments:[{id:-1}],color:16383821}}}`)
+			mc.execute().predicate("raining").percent(40).run(`data modify entity @s ArmorItems[2] set value {id:"minecraft:leather_chestplate",Count:1b,tag:{display:{Name:'{"text":"Raincoat","color":"yellow","italic":false}',color:16383821}}}`)
 
 			// buffed "paladins" in strongholds
 			mc.execute().percent(60).if("block ~ ~-1 ~ #stone_bricks").run("paladin", () => {

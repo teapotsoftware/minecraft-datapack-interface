@@ -16,7 +16,8 @@ module.exports = {
 			`execute as @a[distance=..20] at @s positioned ^ ^ ^-1.5 run playsound entity.creeper.primed hostile @s ~ ~ ~`,
 			`setblock ~ ~ ~ bedrock`,
 			`summon item ~ ~ ~ {PickupDelay:10,Item:{id:"iron_shovel",Count:1b,tag:{display:{Name:'{"text":"Bug Swatter","color":"#33FFCF","italic":false}'},Enchantments:[{id:"minecraft:bane_of_arthropods",lvl:5s}],AttributeModifiers:[{AttributeName:"generic.attack_speed",Name:"generic.attack_speed",Amount:3,Operation:0,UUIDLeast:143398,UUIDMost:173422,Slot:"mainhand"}]}}}`,
-			`summon item ~ ~ ~ {PickupDelay:10,Item:{id:"stick",Count:1b}}`,
+			`summon item ~ ~ ~ {Item:{id:"minecraft:stick",Count:1b}}`,
+			`summon item ~ ~ ~ {Item:{id:"minecraft:ender_chest",Count:2b}}`,
 			`summon end_crystal ~ ~1 ~`,
 			`setblock ~ ~ ~ tnt[unstable=true]`,
 			`summon slime ~ ~ ~ {Size:2,Passengers:[{id:"minecraft:slime",Size:1,Passengers:[{id:"minecraft:slime",CustomNameVisible:1b,Size:0,CustomName:'{"text":"Slime Man","color":"green","italic":false}'}]}]}`,
@@ -54,6 +55,9 @@ module.exports = {
 			[`summon zombie ~ ~ ~ {DeathLootTable:"minecraft:blocks/red_mushroom",CustomName:'{"text":"Marco"}',HandItems:[{id:"minecraft:iron_hoe",Count:1b},{}],HandDropChances:[0.000F,0.085F],ArmorItems:[{id:"minecraft:leather_boots",Count:1b,tag:{display:{color:6043910}}},{id:"minecraft:leather_leggings",Count:1b,tag:{display:{color:1537279}}},{id:"minecraft:leather_chestplate",Count:1b,tag:{display:{color:16711680}}},{id:"minecraft:leather_helmet",Count:1b,tag:{display:{color:16711680}}}],ArmorDropChances:[0.085F,0.000F,0.000F,0.000F]}`, `summon zombie ~ ~ ~ {DeathLootTable:"minecraft:blocks/brown_mushroom",CustomName:'{"text":"Leonardo"}',HandItems:[{id:"minecraft:iron_hoe",Count:1b},{}],HandDropChances:[0.000F,0.085F],ArmorItems:[{id:"minecraft:leather_boots",Count:1b,tag:{display:{color:6043910}}},{id:"minecraft:leather_leggings",Count:1b,tag:{display:{color:1537279}}},{id:"minecraft:leather_chestplate",Count:1b,tag:{display:{color:53047}}},{id:"minecraft:leather_helmet",Count:1b,tag:{display:{color:53047}}}],ArmorDropChances:[0.085F,0.000F,0.000F,0.000F]}`],
 			["weather rain", `summon zombie ~ ~ ~ {CustomName:'{"text":"Carter"}',HandItems:[{id:"minecraft:milk_bucket",Count:1b},{}],HandDropChances:[1.000F,0.085F]}`],
 			[`tellraw @a[distance=..10] "Oh, shoot!"`, `setblock ~ ~-1 ~ dirt`, `fill ~ ~ ~ ~ ~9 ~ bamboo`],
+			[`summon item ~ ~ ~ {Item:{id:"minecraft:potato",Count:1b}}`, `tellraw @a[distance=..10] "Your wish came true! (If you wished for a potato)"`],
+			[`summon item ~ ~ ~ {Item:{id:"minecraft:diamond",Count:1b}}`, `setblock ~ ~-1 ~ lava`],
+			[`summon item ~ ~ ~ {Item:{id:"minecraft:water_bucket",Count:1b}}`, `summon item ~ ~ ~ {Item:{id:"minecraft:lava_bucket",Count:1b}}`, `summon item ~ ~ ~ {Item:{id:"minecraft:milk_bucket",Count:1b}}`],
 			[
 				"setblock ~ ~-1 ~ stone",
 				"setblock ~1 ~-1 ~ stone",
@@ -71,11 +75,6 @@ module.exports = {
 				"setblock ~ ~1 ~-1 iron_door[half=upper,hinge=right,facing=east]",
 				"setblock ~ ~2 ~ stone_slab"
 			],
-			/*[
-				`summon item ~ ~ ~ {Item:{id:"minecraft:carrot_on_a_stick",Count:1b,tag:{display:{Name:'{"text":"AR-15","color":"white","italic":false}'},HideFlags:4,Unbreakable:1b,CustomModelData:12490002,special_coas:1b,gun:1b,gun_auto:1b}}}`,
-				`summon item ~ ~ ~ {Item:{id:"minecraft:iron_nugget",Count:64b,tag:{display:{Name:'{"text":"Cartridge","color":"white","italic":false}'},CustomModelData:12490001}}}`,
-				`tellraw @a[distance=..10] {"color":"dark_gray","text":"All the other kids with the pumped up kicks..."}`
-			],*/
 			() => {
 				mc.command(`tellraw @a[distance=..10] "I heard you like chance cubes, so I put chance cubes in your chance cube..."`)
 				for (let i = 0; i < 3; i++)
@@ -295,14 +294,10 @@ module.exports = {
 			},
 			() => {
 				const r = 5
-				for (let x = -r; x <= r; x++)
-				{
-					for (let y = -r; y <= r; y++)
-					{
-						for (let z = -r; z <= r; z++)
-						{
-							if (Math.sqrt(x*x+y*y+z*z) <= r)
-							{
+				for (let x = -r; x <= r; x++) {
+					for (let y = -r; y <= r; y++) {
+						for (let z = -r; z <= r; z++) {
+							if (Math.sqrt(x*x+y*y+z*z) <= r) {
 								mc.execute().positioned(mc.relativeCoords(x, y, z)).run("invert", () => {
 									mc.setScore("#replacedBlock", "var", 0)
 									const invert_blocks = [
@@ -313,8 +308,7 @@ module.exports = {
 										["water", "chain_command_block"],
 										["lava", "repeating_command_block"]
 									]
-									for (let i = 0; i < invert_blocks.length; i++)
-									{
+									for (let i = 0; i < invert_blocks.length; i++) {
 										mc.execute().if("score #replacedBlock var matches 0").if(`block ~ ~ ~ ${invert_blocks[i][0]}`).run(i + 1, () => {
 											mc.command(`setblock ~ ~ ~ ${invert_blocks[i][1]}`)
 											mc.setScore("#replacedBlock", "var", 1)
@@ -386,14 +380,10 @@ module.exports = {
 			mc.execute().if("score #place_chance_cube_succ var matches 0").run("brute", () => {
 				// mc.command(`tellraw @a "brute forcing..."`)
 				let dim = 6
-				for (let x = -dim; x <= dim; x++)
-				{
-					for (let y = -dim; y <= dim; y++)
-					{
-						for (let z = -dim; z <= dim; z++)
-						{
-							if (x*x + y*y + z*z <= dim*dim)
-							{
+				for (let x = -dim; x <= dim; x++) {
+					for (let y = -dim; y <= dim; y++) {
+						for (let z = -dim; z <= dim; z++) {
+							if (x*x + y*y + z*z <= dim*dim) {
 								mc.execute().if("score #place_chance_cube_succ var matches 0").positioned(mc.relativeCoords(x, y, z)).if("block ~ ~ ~ cyan_stained_glass").align("xyz").positioned(mc.relativeCoords(0.5, -0.23, 0.5)).unless("entity @e[sort=nearest,type=armor_stand,tag=chance_cube_stand,distance=..0.1,limit=1]").positioned(mc.relativeCoords(0, 1, 0)).run("succ", () => {
 									mc.command("function chance-cubes:summon-chance-cube")
 									// mc.command(`tellraw @a "brute forced!"`)
@@ -407,29 +397,15 @@ module.exports = {
 		})
 
 		mc.hookAdvancement("craft-chance-cube", "inventory_changed", {
-			items: [
-				{
-					item: "minecraft:structure_block",
-				}
-			],
+			items: [{item: "minecraft:structure_block"}]
 		}, () => {
 			mc.command("tag @s add crafted_chance_cube")
 			mc.command("advancement revoke @s only chance-cubes:craft-chance-cube")
 		})
 
-/*
-		mc.hookAdvancement("craft-chance-cube", "recipe_unlocked", {
-			recipe: "oyumod:chance_cube",
-		}, () => {
-			mc.command("tag @s add crafted_chance_cube")
-			mc.command("advancement revoke @s only oyumod:craft-chance-cube")
-		})
-*/
-
 		// TODO: allow mods to add chance cube outcomes
 	},
 	["tick-players"]: data => {
-
 		// give the crafted chance cubes
 		mc.execute().as("@s[tag=crafted_chance_cube]").run("craft-chance", () => {
 			mc.execute().store("result score #crafted_chance_cube var").run("clear @s structure_block")
@@ -447,10 +423,8 @@ module.exports = {
 		})
 	},
 	["tick-entities"]: data => {
-
 		// armor stand tick
 		mc.execute().as("@s[type=armor_stand]").run("stand", () => {
-
 			// chance cube broken
 			mc.execute().as("@s[tag=chance_cube_stand]").positioned(mc.relativeCoords(0, 1.8, 0)).unless("block ~ ~ ~ cyan_stained_glass").run("chance", () => {
 				util.generateRandomScore("chance_cube", data.outcomes.length, data.outcomes)

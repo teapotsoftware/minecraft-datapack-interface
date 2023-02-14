@@ -4,8 +4,8 @@ const util = require("./util")
 module.exports = { // mine co supply eggs
 	id: "supply-eggs",
 	name: "Mine Co. Supply Eggs",
-	desc: "Turns Minecraft into a gacha game.",
-	updated: [2, 12, 23],
+	desc: "TF2 crates, but in Minecraft.",
+	updated: [2, 13, 23],
 	data: {
 		color_unique: "#FFD700",
 		color_strange: "#CF6A32",
@@ -119,79 +119,6 @@ module.exports = { // mine co supply eggs
 				[500, "Herobrine\\'s Own"]
 			]
 		],
-/*
-		strange_prefixes: [
-			[
-				[0, "Strange"],
-				[10, "Unremarkable"],
-				[25, "Scarcely Lethal"],
-				[45, "Mildly Menacing"],
-				[70, "Somewhat Threatening"],
-				[100, "Uncharitable"],
-				[135, "Notably Dangerous"],
-				[175, "Sufficiently Lethal"],
-				[225, "Truly Feared"],
-				[275, "Spectacularly Lethal"],
-				[350, "Gore-Spattered"],
-				[500, "Wicked Nasty"],
-				[750, "Positively Inhumane"],
-				[999, "Totally Ordinary"],
-				[1000, "Face-Melting"],
-				[1500, "Rage-Inducing"],
-				[2500, "Server-Clearing"],
-				[5000, "Epic"],
-				[7500, "Legendary"],
-				[7616, "Minecraftian"],
-				[8500, "Herobrine\\'s Own"],
-			],
-			[
-				[0, "Strange"],
-				[10, "Unremarkable"],
-				[25, "Scarcely Lethal"],
-				[45, "Mildly Menacing"],
-				[70, "Somewhat Threatening"],
-				[100, "Uncharitable"],
-				[135, "Notably Dangerous"],
-				[175, "Sufficiently Lethal"],
-				[225, "Truly Feared"],
-				[275, "Spectacularly Lethal"],
-				[350, "Gore-Spattered"],
-				[500, "Wicked Nasty"],
-				[750, "Positively Inhumane"],
-				[999, "Totally Ordinary"],
-				[1000, "Face-Melting"],
-				[1300, "Rage-Inducing"],
-				[1750, "Server-Clearing"],
-				[2250, "Epic"],
-				[3000, "Legendary"],
-				[4000, "Minecraftian"],
-				[5000, "Herobrine\\'s Own"],
-			],
-			[
-				[0, "Strange"],
-				[10, "Unremarkable"],
-				[25, "Scarcely Lethal"],
-				[45, "Mildly Menacing"],
-				[70, "Somewhat Threatening"],
-				[100, "Uncharitable"],
-				[135, "Notably Dangerous"],
-				[175, "Sufficiently Lethal"],
-				[225, "Truly Feared"],
-				[275, "Spectacularly Lethal"],
-				[350, "Gore-Spattered"],
-				[500, "Wicked Nasty"],
-				[750, "Positively Inhumane"],
-				[999, "Totally Ordinary"],
-				[1000, "Face-Melting"],
-				[1300, "Rage-Inducing"],
-				[1750, "Server-Clearing"],
-				[2250, "Epic"],
-				[3000, "Legendary"],
-				[4000, "Minecraftian"],
-				[5000, "Herobrine\\'s Own"],
-			]
-		],
-*/
 		get supply_egg_nbt() {
 			return `{display:{Name:'{"text":"Mine Co. Supply Egg","color":"${this.color_unique}","italic":false}',Lore:['{"text":"May contain:","color":"gray","italic":false}','{"text":"- Strange Stone Sword","color":"dark_gray","italic":false}','{"text":"- Strange Golden Sword","color":"dark_gray","italic":false}','{"text":"- Strange Iron Sword","color":"dark_gray","italic":false}','{"text":"- Strange Diamond Sword","color":"dark_gray","italic":false}','{"text":"- Strange Stone Axe","color":"dark_gray","italic":false}','{"text":"- Strange Golden Axe","color":"dark_gray","italic":false}','{"text":"- Strange Iron Axe","color":"dark_gray","italic":false}','{"text":"- Strange Diamond Axe","color":"dark_gray","italic":false}','{"text":"- Strange Bow","color":"dark_gray","italic":false}','{"text":"...or an exceedingly rare special item!","color":"yellow","italic":true}']},Enchantments:[{}],EntityTag:{id:"minecraft:item",Item:{id:"minecraft:chest",Count:1b,tag:{supply_egg:1b}}}}`
 		}
@@ -215,7 +142,6 @@ module.exports = { // mine co supply eggs
 		mc.execute().if("score #unusual_cooldown var matches ..0").run("scoreboard players set #unusual_cooldown var 3")
 	},
 	["tick-players"]: data => {
-
 		// give the crafted supply eggs
 		mc.execute().as("@s[tag=crafted_supply_egg]").run("craft-supply-egg", () => {
 			mc.execute().store("result score #crafted_supply_egg var").run("clear @s command_block")
@@ -246,14 +172,10 @@ module.exports = { // mine co supply eggs
 
 		// got kill
 		mc.execute().if("score @s strange_kills matches 1..").run("kill", () => {
-
 			// holding strange weapon
 			mc.execute().if("data entity @s SelectedItem.tag.strange_weapon").run("strange", () => {
-
-				for (let w in data.strange_weapons)
-				{
+				for (let w in data.strange_weapons) {
 					mc.execute().if(`data entity @s SelectedItem.tag.strange_${data.strange_weapons[w][0]}`).run(data.strange_weapons[w][0], () => {
-
 						// remember what the block even was
 						mc.setScore("#was_air", "var", 1)
 						mc.execute().if("block ~ -64 ~ bedrock").run("scoreboard players set #was_air var 0")
@@ -305,7 +227,6 @@ module.exports = { // mine co supply eggs
 		})
 	},
 	["tick-entities-fresh-item"]: data => {
-
 		let strange_wep_cmds = []
 		for (let i = 0; i < data.strange_wep_types.length; i++) {
 			for (let j = 0; j < data.strange_wep_tiers.length; j++) {
@@ -354,7 +275,6 @@ module.exports = { // mine co supply eggs
 		})
 	},
 	["tick-entities-fresh-trader"]: data => {
-
 		//  give all traders supply eggs
 		mc.command(`data modify entity @s Offers.Recipes prepend value {maxUses:10,buy:{id:"minecraft:emerald",Count:3b},sell:{id:"minecraft:villager_spawn_egg",Count:1b, tag:${data.supply_egg_nbt}}}`)
 	}
